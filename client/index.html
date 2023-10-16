@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="style.css">
+        <!--police d'écriture-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+        <title>Client App</title>
+    </head>
+    <body>
+        <h1>Client Application</h1>
+
+        <h2>Employés</h2>
+        <button onclick="getEmployes()">Obtenir la liste des employés</button> <br>
+        <p id="tousEmployes"></p>
+        <br><br><br>
+        <form name="form">
+            <p>Nom:</p>
+            <input type="text" name="nom" id="nom"><br>
+            <p>Prénom:</p>
+            <input type="text" name="prenom" id="prenom"><br>
+            <p>Naissance ( AAAA - MM - JJ):</p>
+            <input type="text" name="naissance" id="naissance"> <br> <br>
+            <input type="button" value="Créer un employé" onclick="createEmploye()">
+            <p id="employeCree"></p>
+        </form>
+
+        <h2>Supprimer un employé</h2>
+        <form name="deleteForm">
+            <p>Employé à supprimer:</p>
+            <select name="nomDelete" id="nomDelete">
+            </select>
+            <input type="button" value="Supprimer l'employé" onclick="deleteEmploye()">
+        </form>
+
+        <script src="script.js"></script>
+    </body>
+</html>
