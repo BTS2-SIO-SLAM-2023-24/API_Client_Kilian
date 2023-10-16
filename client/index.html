@@ -14,7 +14,7 @@
         <h1>Client Application</h1>
 
         <h2>Employés</h2>
-        <button onclick="getEmployes()">Obtenir la liste des employés</button> <br>
+        <button onclick="getEmployes()" class="submit">Obtenir la liste des employés</button> <br>
         <p id="tousEmployes"></p>
         <br><br><br>
         <form name="form">
@@ -24,7 +24,7 @@
             <input type="text" name="prenom" id="prenom"><br>
             <p>Naissance ( AAAA - MM - JJ):</p>
             <input type="text" name="naissance" id="naissance"> <br> <br>
-            <input type="button" value="Créer un employé" onclick="createEmploye()">
+            <input type="button" value="Créer un employé" onclick="createEmploye()" class="submit">
             <p id="employeCree"></p>
         </form>
 
@@ -32,8 +32,8 @@
         <form name="deleteForm">
             <p>Employé à supprimer:</p>
             <select name="nomDelete" id="nomDelete">
-            </select>
-            <input type="button" value="Supprimer l'employé" onclick="deleteEmploye()">
+            </select> <br> <br>
+            <input type="button" value="Supprimer l'employé" onclick="deleteEmploye()" class="submit">
         </form>
 
         <script src="script.js"></script>
