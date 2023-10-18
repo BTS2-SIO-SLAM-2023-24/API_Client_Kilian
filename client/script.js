@@ -2,10 +2,12 @@ const API_BASE_URL = 'http://localhost:3000'; // Remplacez par l'URL de votre AP
 
 window.addEventListener("load", function() {
     getSelect();
+    getSelectAnimals();
 });
 
 // Exemple de fonction pour effectuer une requête GET pour obtenir la liste des employés
 function getEmployes() {
+    var message = '';
     fetch(`${API_BASE_URL}/employes`)
         .then((response) => response.json())
         .then((data) => {
@@ -13,12 +15,25 @@ function getEmployes() {
 
             // Assurez-vous que "employes" existe dans l'objet data
             if (data.employes && Array.isArray(data.employes)) {
-                const nomsPrenomsHTML = data.employes.map((employe) => {
-                    return `<li>Nom : ${employe.nom}, Prénom : ${employe.prenom}</li><br>`;
-                }).join('');
+                const employePromises = data.employes.map((employe) => {
+                    var employeId = employe._id;
+                    return fetch(`${API_BASE_URL}/employes/${employeId}/age`)
+                        .then((response) => response.json())
+                        .then((age) => {
+                            console.log(age);
+                            message += `<li>Nom : ${employe.nom}, Prénom : ${employe.prenom}, Âge : ${age.age}</li><br>`;
+                        });
+                });
 
-                // Insérez les noms et prénoms dans l'élément HTML
-                document.getElementById("tousEmployes").innerHTML = `<ul>${nomsPrenomsHTML}</ul>`;
+                // Attendre que toutes les promesses se terminent
+                Promise.all(employePromises)
+                    .then(() => {
+                        // Insérez les noms, prénoms et âges dans l'élément HTML
+                        document.getElementById("tousEmployes").innerHTML = `<ul>${message}</ul>`;
+                    })
+                    .catch((error) => {
+                        console.error('Erreur lors de la récupération des âges :', error);
+                    });
             } else {
                 console.error('Le champ "employes" est absent ou n\'est pas un tableau.');
             }
@@ -28,16 +43,18 @@ function getEmployes() {
         });
 }
 
+
 // Exemple de fonction pour effectuer une requête POST pour créer un employé
 function createEmploye() {
     var nom = document.getElementById("nom").value;
     var prenom = document.getElementById("prenom").value;
     var dateNaissanceForm = document.getElementById("naissance").value;
+    var animal = document.getElementById("animalSelect").value;
     console.log(nom, prenom, dateNaissanceForm);
     const newEmploye = {
         nom: nom,
         prenom: prenom,
-        dateNaissance: dateNaissanceForm // Remplacez par la date de naissance souhaitée
+        dateNaissance: dateNaissanceForm, // Remplacez par la date de naissance souhaitée
     };
 
     fetch(`${API_BASE_URL}/employes`, {
@@ -49,13 +66,15 @@ function createEmploye() {
     })
         .then((response) => response.json())
         .then((data) => {
-
-            document.getElementById("employeCree").innerHTML = `Employé créé : ${nom} ${prenom} né le : ${dateNaissanceForm}`
+            var employeCreatedId = data.employe._id;
+            document.getElementById("employeCree").innerHTML = `Employé créé : ${nom} ${prenom} né le : ${dateNaissanceForm}= `
             console.log('Employé créé :', data);
+            fetch(`${API_BASE_URL}/${employeCreatedId}/addAnimal/${animal}`)
         })
         .catch((error) => {
             console.error("Erreur lors de la création de l'employé :", error);
         });
+    
 }
 
 function getSelect() {
@@ -110,3 +129,24 @@ function deleteEmploye() {
         console.error('Erreur lors de la suppression de l\'employé :', error);
     });
 }
+
+function getSelectAnimals () {
+    fetch(`${API_BASE_URL}/animals`)
+    .then((response) => response.json())
+    .then((animals) => {
+        console.log('Liste des animaux :', animals)
+
+        const animalSelect = document.getElementById("animalSelect");
+
+        if (animals.animals && Array.isArray(animals.animals)) {
+            animals.animals.forEach((animal) => {
+                const option = document.createElement("option");
+                option.value = animal._id; // Utilisez une valeur appropriée pour l'option
+                option.text = `${animal.nom}`;
+                animalSelect.appendChild(option);
+            });
+        } else {
+            console.error('La propriété "employes" n\'est pas un tableau valide dans la réponse JSON.');
+        }
+
+})}

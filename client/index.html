@@ -8,7 +8,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
-        <title>raphael t moche</title>
+        <title>Client app</title>
         <!-- favicon-->
         <link rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="favicon/apple-icon-60x60.png">
@@ -33,7 +33,7 @@
         <h1>Client Application</h1>
 
         <h2>Employés</h2>
-        <button onclick="getEmployes()" class="submit">Obtenir la liste des employés</button> <br>
+        <button onclick="getEmployes(), getSelectAnimals()" class="submit">Obtenir la liste des employés</button> <br>
         <p id="tousEmployes"></p>
         <br><br>
         <h1>Creer un employé</h1>
@@ -43,9 +43,13 @@
             <p>Prénom:</p>
             <input type="text" name="prenom" id="prenom"><br>
             <p>Naissance ( AAAA - MM - JJ):</p>
-            <input type="text" name="naissance" id="naissance"> <br> <br>
-            <input type="button" value="Créer un employé" onclick="createEmploye(), history.go(0)" class="submit">
+            <input type="text" name="naissance" id="naissance"> <br>
+            <p>Animaux:</p>
+            <select name="animalSelect" id="animalSelect">
+            </select> <br> <br>
+            <input type="button" value="Créer un employé" onclick="createEmploye()" class="submit">
             <p id="employeCree"></p>
+            
         </form>
 
         <h2>Supprimer un employé</h2>
